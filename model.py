@@ -37,7 +37,7 @@ def loss_fn(x, y):
     return torch.mean((x - y)**2)
 
 
-def get_dataset(seed=0):
+def get_dataset(seed=0, dim=dim, pct=pct, examples=examples):
     torch.manual_seed(seed);
     X = torch.rand(examples, dim)
     X[torch.rand(examples, dim) < pct] = 0
