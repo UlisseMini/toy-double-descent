@@ -31,3 +31,15 @@ class Model(nn.Module):
         x = torch.einsum('ij,ki->kj', self.W, h) # [batch, dim]
         x = torch.relu(x + self.b)
         return x
+
+
+def loss_fn(x, y):
+    return torch.mean((x - y)**2)
+
+
+def get_dataset(seed=0):
+    torch.manual_seed(seed);
+    X = torch.rand(examples, dim)
+    X[torch.rand(examples, dim) < pct] = 0
+    X = X / torch.norm(X, dim=1, keepdim=True)
+    return X

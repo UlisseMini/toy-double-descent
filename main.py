@@ -1,43 +1,24 @@
 # %%
 
 import torch
-import torch.nn as nn
 import wandb
-from model import Model, config
+from model import Model, config, get_dataset, loss_fn
 
 wandb.init(project='toy-double-descent')
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
-
-# %%
-# Hyperparameters and dataset creation. (unkown = unknown in paper)
-
 for key in config:
     wandb.config[key] = config[key]
 
-examples, dim, pct, hdim = config['examples'], config['dim'], config['pct'], config['hdim']
-
-# Create dataset of sparse vectors
-
-torch.manual_seed(0);
-X = torch.rand(examples, dim)
-X[torch.rand(examples, dim) < pct] = 0
-X = X / torch.norm(X, dim=1, keepdim=True)
+X = get_dataset()
 X = X.to(device)
-
-# %%
-# Create model. essentially an autoencoder where W.T is the unembedding
-
-
-def loss_fn(x, y):
-    return torch.mean((x - y)**2)
-
 
 model = Model()
 model.to(device)
 
 print(f'num params = {sum(p.numel() for p in model.parameters()) / 1e3:.0f}k')
 print(f'loss = {loss_fn(model(X), X):.3f}')
+
 # %%
 # Train the model!
 # TODO: Reproduce double descent
