@@ -4,13 +4,16 @@ import torch.nn as nn
 
 # %%
 
+# TODO: Put in config.py and use cursed importlib magic to have the best of both worlds.
 config = {}
 
 config['dim'] = 10_000    # N in paper
 config['pct'] = 0.999     # S in paper
-config['examples'] = 1000 # T in paper (unknown)
+config['examples'] = 1000 # T in paper (previously infinity)
 # config.hdim = int(config.dim * (1-config.pct)) # (unknown)
 config['hdim'] = 2
+config['steps'] = 50_000
+config['warmup_steps'] = 2_500
 
 dim, pct, examples, hdim = config['dim'], config['pct'], config['examples'], config['hdim']
 
@@ -41,5 +44,5 @@ def get_dataset(seed=0, dim=dim, pct=pct, examples=examples):
     torch.manual_seed(seed);
     X = torch.rand(examples, dim)
     X[torch.rand(examples, dim) < pct] = 0
-    X = X / torch.norm(X, dim=1, keepdim=True)
+    X = X / torch.norm(X, dim=1, keepdim=True) # new
     return X
