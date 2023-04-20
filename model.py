@@ -1,6 +1,7 @@
 
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 
 # %%
 
@@ -37,7 +38,7 @@ class Model(nn.Module):
 
 
 def loss_fn(x, y):
-    return torch.mean((x - y)**2)
+    return F.mse_loss(x, y)
 
 
 def get_dataset(seed=0, dim=dim, pct=pct, examples=examples):
