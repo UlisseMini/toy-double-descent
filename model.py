@@ -42,8 +42,13 @@ def loss_fn(x, y):
 
 
 def get_dataset(seed=0, dim=dim, pct=pct, examples=examples):
+    rng_state = torch.random.get_rng_state() # preserve rng state
+
     torch.manual_seed(seed);
     X = torch.rand(examples, dim)
     X[torch.rand(examples, dim) < pct] = 0
-    X = X / torch.norm(X, dim=1, keepdim=True) # new
+    # normalize, handling the case where all of X is zero
+    X = X / torch.norm(X, dim=1, keepdim=True).clamp(min=1e-12)
+
+    torch.random.set_rng_state(rng_state)
     return X

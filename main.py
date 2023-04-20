@@ -11,7 +11,7 @@ device = 'cuda' if torch.cuda.is_available() else 'cpu'
 for key in config:
     wandb.config[key] = config[key]
 
-X = get_dataset()
+X = get_dataset(dim=config['dim'], pct=config['pct'], examples=config['examples'])
 X = X.to(device)
 
 model = Model()
