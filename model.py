@@ -21,7 +21,7 @@ dim, pct, examples, hdim = config['dim'], config['pct'], config['examples'], con
 # %%
 
 class Model(nn.Module):
-    def __init__(self):
+    def __init__(self, dim=dim, hdim=hdim):
         super(Model, self).__init__()
         self.W = nn.Parameter(torch.randn(hdim, dim))
         self.b = nn.Parameter(torch.randn(dim))

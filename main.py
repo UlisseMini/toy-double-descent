@@ -14,7 +14,7 @@ for key in config:
 X = get_dataset(dim=config['dim'], pct=config['pct'], examples=config['examples'])
 X = X.to(device)
 
-model = Model()
+model = Model(dim=config['dim'], hdim=config['hdim'])
 model.to(device)
 
 print(f'num params = {sum(p.numel() for p in model.parameters()) / 1e3:.0f}k')
