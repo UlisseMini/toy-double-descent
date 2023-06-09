@@ -10,10 +10,11 @@ config = {}
 
 config['dim'] = 10_000    # N in paper
 config['pct'] = 0.999     # S in paper
-config['examples'] = 50_000 # T in paper (previously infinity)
+config['examples'] = 10 # T in paper (previously infinity)
 # config.hdim = int(config.dim * (1-config.pct)) # (unknown)
 config['hdim'] = 2
 config['steps'] = 50_000
+config['warmup'] = 2500
 
 dim, pct, examples, hdim = config['dim'], config['pct'], config['examples'], config['hdim']
 
